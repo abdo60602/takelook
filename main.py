@@ -9,14 +9,32 @@ class Application(Frame):
 
 
     def createWidgets(self):
-        self.QUIT = Button(self, text='Login', fg='red', command=self.test, font=("Arial", 15))
-        self.QUIT.grid(ipadx = '50px')
+    	self.user_name_ = Label(self, text='User Name:',font=("Arial", 15))
+        self.user_name_.grid(sticky=W)
+        
+        self.user_name = Entry(self, font=("Arial", 15))
+        self.user_name.grid(pady=10, row= 0,padx=120)
+        self.user_name.bind("<Return>",self.test)
+        
 
-    def test(self):
-    	print 'this Ok'
-    
+    	self.password_ = Label(self, text='Password  :',font=("Arial", 15))
+        self.password_.grid(sticky=W)
+        
+        self.password = Entry(self, font=("Arial", 15),show="-")
+        self.password.grid(row=1,pady=10)
+        self.password.bind("<Return>",self.test)
+
+        self.QUIT = Button(self, text='Login', fg='red', command= self.test, font=("Arial", 15))
+        self.QUIT.grid(ipadx =165)
+
+
+
+    def test(self, *event):
+    	u = self.user_name.get()
+    	p = self.password.get()
+    	print u+ '==>'+ p
 
 root = Tk()
-root.geometry("400x450")
+root.geometry("450x470")
 app = Application(master=root)
 app.mainloop()
