@@ -24,8 +24,8 @@ class Application(Frame):
         self.password.grid(row=1,pady=10)
         self.password.bind("<Return>",self.test_login)
 
-        self.QUIT = Button(self, text='Login', fg='red', command= self.test_login, font=("Arial", 15))
-        self.QUIT.grid(ipadx =165)
+        self.login = Button(self, text='Login', fg='red', command= self.test_login, font=("Arial", 15))
+        self.login.grid(ipadx =165, rowspan=50)
 
     def test_login(self, *event):
     	if self.user_name.get() == 'admin' and self.password.get() == 'admin':
@@ -40,6 +40,8 @@ class Application(Frame):
     	print u+ '==>'+ p
 
 root = Tk()
-root.geometry("450x470")
+root.maxsize(width=450, height=470)
+root.minsize(width=450, height=470)
+root.configure(background='#00ff38')
 app = Application(master=root)
 app.mainloop()
