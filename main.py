@@ -1,8 +1,11 @@
 from Tkinter import *
+from PIL import Image, ImageTk
+import home
+
 
 class Application(Frame):
 
-    def __init__(self, master=None):
+    def __init__(self, master=None):    	
         Frame.__init__(self, master)
         self.pack()
         self.createWidgets()
@@ -30,8 +33,15 @@ class Application(Frame):
     def test_login(self, *event):
     	if self.user_name.get() == 'admin' and self.password.get() == 'admin':
     		print 'Right Password'
+    		self.activ_user()
     	else:
     		print 'Retry'
+
+    def activ_user(self):
+        self.forget()
+
+        home.Application()
+    	   		
 
 
     def test(self, *event):
@@ -39,9 +49,4 @@ class Application(Frame):
     	p = self.password.get()
     	print u+ '==>'+ p
 
-root = Tk()
-root.maxsize(width=450, height=470)
-root.minsize(width=450, height=470)
-root.configure(background='#00ff38')
-app = Application(master=root)
-app.mainloop()
+
