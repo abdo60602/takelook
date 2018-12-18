@@ -4,8 +4,8 @@ import main , home
 
 
 root = Tk()
-
-
+root.iconbitmap('logo.ico')
+root.title('TakeLook')
 root.maxsize(width=450, height=470)
 root.minsize(width=450, height=470)
 root.configure(background='black')
