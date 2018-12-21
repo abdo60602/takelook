@@ -1,7 +1,8 @@
 from Tkinter import *
 from PIL import Image, ImageTk
 import home
-
+import mysql.connector
+import db_connection
 
 class Application(Frame):
 
@@ -16,7 +17,7 @@ class Application(Frame):
 
         self.w = Label(self, 
                      compound = CENTER, 
-                     image=self.photo,bg='black').grid()
+                     image=self.photo,bg='black').grid(row=4,sticky='N')
 
 
     def createWidgets(self):
@@ -31,7 +32,7 @@ class Application(Frame):
     	self.password_ = Label(self,bg='black', text='Password',font=("Arial", 15),fg='#8bc900',padx=13)
         self.password_.grid(sticky=W)
         
-        self.password = Entry(self, font=("Arial", 15),show="*",fg='#041633',borderwidth=2,relief='sunken')
+        self.password = Entry(self, font=("Arial", 15),show='*',fg='#041633',borderwidth=2,relief='sunken')
         self.password.grid(row=1,pady=10)
         self.password.bind("<Return>",self.test_login)
 
@@ -41,12 +42,34 @@ class Application(Frame):
         self.forget = Button(self, text='Forget Password',bg='#5a5767', fg='white', command= self.test_login, font=("Arial", 10),borderwidth=3,relief='raised')
         self.forget.grid(padx=3)
 
+        self.copyright = Label(self,bg='black', text='Copyright (C) 2018 Author Abdallah Darweesh',font=("Arial", 8),fg='#8bc900',padx=13)
+        self.copyright.grid(row=5)
+
     def test_login(self, *event):
-    	if self.user_name.get() == 'admin' and self.password.get() == 'admin':
+    	'''if self.user_name.get() == 'admin' and self.password.get() == 'admin':
     		print 'Right Password'
     		self.activ_user()
     	else:
-    		print 'Retry'
+    		print 'Retry'''
+
+        
+        profile_id = None
+        db_connection.cur.execute(db_connection.query)
+        for x in db_connection.cur.fetchall():
+            if self.user_name.get() == x[1] and self.password.get()==x[2]: #Cheack user in db                
+                profile_id = x[0]                               
+                break
+
+                
+
+        if profile_id == None:
+            self.copyright = Label(self,bg='black', text='Wrong Password\nMother Fucker',font=("Arial", 8),fg='red',padx=13)
+            self.copyright.grid(row=2,sticky='W')
+
+            self.copyright = Label(self,bg='black', text='Wrong Password\nMother Fucker',font=("Arial", 8),fg='red',padx=13)
+            self.copyright.grid(row=2,sticky='E')
+        else:
+            self.activ_user()    
 
     def activ_user(self):
         self.destroy()
