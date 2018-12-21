@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 conn = mysql.connector.connect(
          user='root',
          password='2672',
@@ -10,5 +11,4 @@ cur = conn.cursor()
 
 query = ("SELECT * FROM takelook")
 
-#cur.execute(query)
 

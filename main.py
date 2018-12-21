@@ -39,44 +39,44 @@ class Application(Frame):
         self.login = Button(self, text='Login', fg='white',bg='#8aa306', command= self.test_login, font=("Arial", 15,'bold'),borderwidth=4,relief='raised')
         self.login.grid(ipadx =40)
 
-        self.forget = Button(self, text='Forget Password',bg='#5a5767', fg='white', command= self.test_login, font=("Arial", 10),borderwidth=3,relief='raised')
-        self.forget.grid(padx=3)
+        self.forget = Button(self, text='Forget Password',bg='#5a5767', fg='white', command= self.test_login, font=("Arial", 12),borderwidth=3,relief='raised')
+        self.forget.grid(padx=3,row=2,sticky='W')
 
         self.copyright = Label(self,bg='black', text='Copyright (C) 2018 Author Abdallah Darweesh',font=("Arial", 8),fg='#8bc900',padx=13)
         self.copyright.grid(row=5)
 
-    def test_login(self, *event):
-    	'''if self.user_name.get() == 'admin' and self.password.get() == 'admin':
-    		print 'Right Password'
-    		self.activ_user()
-    	else:
-    		print 'Retry'''
+        self.conn_error_ = Button(self, text='Create Account',font=("Arial", 12),fg='black',bg='#C2E3DC')
+        self.conn_error_.grid(row=2,sticky='E',padx=30)
 
-        
+    def test_login(self, *event):
+    	        
         profile_id = None
-        db_connection.cur.execute(db_connection.query)
-        for x in db_connection.cur.fetchall():
-            if self.user_name.get() == x[1] and self.password.get()==x[2]: #Cheack user in db                
-                profile_id = x[0]                               
-                break
+        try:
+            db_connection.cur.execute(db_connection.query)
+            for x in db_connection.cur.fetchall():
+                if self.user_name.get() == x[1] and self.password.get()==x[2]: #Cheack user in db                
+                    profile_id = x[0]                               
+                    break               
+
+            if profile_id == None:
+                self.conn_error_ = Label(self,bg='black', text='Wrong Password Mother Fucker',font=("Arial", 8),fg='#08C5D1',padx=13)
+                self.conn_error_.grid(row=3)
 
                 
+            else:
+                self.activ_user()    
 
-        if profile_id == None:
-            self.copyright = Label(self,bg='black', text='Wrong Password\nMother Fucker',font=("Arial", 8),fg='red',padx=13)
-            self.copyright.grid(row=2,sticky='W')
-
-            self.copyright = Label(self,bg='black', text='Wrong Password\nMother Fucker',font=("Arial", 8),fg='red',padx=13)
-            self.copyright.grid(row=2,sticky='E')
-        else:
-            self.activ_user()    
+        except:
+            self.conn_error()
 
     def activ_user(self):
         self.destroy()
 
         home.Application()
-    	   		
 
+    def conn_error(self):
+        self.copyright = Label(self,bg='black', text='Error with your connection!',font=("Arial", 10),fg='red',padx=13)
+        self.copyright.grid(row=3)
 
     def test(self, *event):
     	u = self.user_name.get()
